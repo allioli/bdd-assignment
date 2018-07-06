@@ -20,7 +20,7 @@ Default cukes runner tag is `@user_registration`
 
 | **Folder / File**                    | **Contents** |
 | ---                           | ---          |
-|   src/test/resources/features |   feature file with BDD scenarios      |
+|   [src/test/resources/features](https://github.com/allioli/abaenglish-assignment/blob/master/webui-tests/src/test/resources/features/user_registration.feature) |   feature file with BDD scenarios      |
 |   src/test/java               |    Scenario step definitions and supporting code     |
 |   [pom.xml](pom.xml)               |    Maven project dependencies and description     |
 
@@ -30,7 +30,8 @@ Default cukes runner tag is `@user_registration`
 ## Dependencies
 
 - Java 8
-- Chrome browser
+- Chrome browser & chromedriver
+- Maven
 
 ## How to run
 

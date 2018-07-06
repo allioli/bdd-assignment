@@ -15,17 +15,21 @@ public class BasePage {
     this.actionBot = new ActionBot(driver);
   }
 
-  public void switchToNewChildWindowAndStoreParentWindowHandle(){
+  public void switchToNewChildWindow(){
 
     String parentWindowHandle="";  
     String childWindowHandle=""; 
 
+    // Find the new child window
     Set <String>handles = driver.getWindowHandles();
     parentWindowHandle = driver.getWindowHandle();
     handles.remove(parentWindowHandle);
+    childWindowHandle=handles.iterator().next();
+
+    // Store parent window Handle to switch back to it
     this.windowHandle = parentWindowHandle;
 
-    childWindowHandle=handles.iterator().next();
+    // Switch to child window
     driver.switchTo().window(childWindowHandle);
   }
 

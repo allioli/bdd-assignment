@@ -25,21 +25,21 @@ public class GoogleSignInPopUpPage extends BasePage {
 
 	public void clickEmailSubmitButton() {
 
-		actionBot.waitToBeDisplayedAndClick(submitEmailButton);
+		actionBot.waitElementDisplayedAndClick(submitEmailButton);
 	}
 
 	public void clickPasswordSubmitButton() {
 
-		actionBot.waitToBeDisplayedAndClick(submitPasswordButton);
+		actionBot.waitElementDisplayedAndClick(submitPasswordButton);
 	}
 
 	public void enterEmail(String email) {
 
-		actionBot.waitToBeDisplayedAndEnterText(loginInputEmail, email);
+		actionBot.waitElementDisplayedAndEnterText(loginInputEmail, email);
 	}
 
 	public void enterPassword(String password) {
 
-		actionBot.waitToBeDisplayedAndEnterText(loginInputPassword, password);
+		actionBot.waitElementDisplayedAndEnterText(loginInputPassword, password);
 	}
 }

@@ -1,5 +1,7 @@
 package com.mytesting;
 
+import static org.junit.Assert.assertTrue;
+
 import com.mytesting.pages.CampusPage;
 import com.mytesting.pages.GoogleSignInPopUpPage;
 import com.mytesting.pages.LoginPage;
@@ -19,7 +21,7 @@ public class UserRegistrationStepDefinitions {
     private RegistrationPage registrationPage;
     private GoogleSignInPopUpPage googleSignInPopUp;
     private CampusPage campusPage;
-    
+
     public UserRegistrationStepDefinitions() {
         driver = Hooks.driver;
         loginPage = PageFactory.initElements(driver, LoginPage.class);
@@ -30,17 +32,17 @@ public class UserRegistrationStepDefinitions {
 
     @Given("^I go to login page$")
     public void i_go_to_login_page() {
-        
-    	loginPage.navigate();
+
+        loginPage.navigate();
     }
-    
-    @When("^I create a user account with google credentials$")
-    public void i_create_user_account_with_google_credentials() {
-        
+
+    @When("^I register with google credentials$")
+    public void i_register_with_google_credentials() {
+
         loginPage.clickRegisterButton();
 
         registrationPage.clickSignInGoogleButton();
-        registrationPage.switchToNewChildWindowAndStoreParentWindowHandle();
+        registrationPage.switchToNewChildWindow();
 
         googleSignInPopUp.enterEmail("joethecatwithdiamonds@gmail.com");
         googleSignInPopUp.clickEmailSubmitButton();
@@ -48,43 +50,43 @@ public class UserRegistrationStepDefinitions {
         googleSignInPopUp.clickPasswordSubmitButton();
 
         registrationPage.switchToParentWindow();
-        //registrationPage.checkNoCommercialNotification();
-        //registrationPage.clickRegisterButton();
-
-        //campusPage.clickLevelContinueButton();
-        campusPage.clickCloseSendPersonalInformationDialog();
-        campusPage.clickNotNowInviteFriendsDialog();
-        campusPage.clickCloseStartCourseDialog();
-        campusPage.clickMyAccountMenu();
-        campusPage.clickLogoutButton(); 
-    	
+        // registrationPage.checkNoCommercialNotification();
+        // registrationPage.clickRegisterButton();
     }
-    
+
     @When("^I sign in with email and password$")
     public void i_sign_in_with_email_password() {
-    	
-    	/*loginPage.clickLoginButton();
-    	loginPanel.clickLoginEmailButton();
-    	loginPanel.enterEmail(world.getLoginEmail());
-    	loginPanel.enterPassword(world.getLoginPassword());
-    	loginPanel.clickEmailPasswordSubmitButton();*/
-    	
+
+        /*
+         * loginPage.clickLoginButton(); loginPanel.clickLoginEmailButton();
+         * loginPanel.enterEmail(world.getLoginEmail());
+         * loginPanel.enterPassword(world.getLoginPassword());
+         * loginPanel.clickEmailPasswordSubmitButton();
+         */
+
     }
-    
-    @When("^I sign out$")
-    public void i_sign_out() {
-    	
-    	//signedInHomePage.signOut();	
+
+    @When("^I log out$")
+    public void i_log_out() {
+
+        campusPage.clickMyAccountMenu();
+        campusPage.clickLogoutButton();
     }
-    
-    @Then("^I am signed in as a registered user$")
-    public void i_am_signed_in_as_a_registeread_user() {
-    	
-    	/*signedInHomePage.waitForAvatarButton();
-    	signedInHomePage.waitForPushNotificationLink();*/
+
+    @Then("^I should enter the campus for the first time$")
+    public void i_should_enter_campus_for_the_first_time() {
+
+        // campusPage.clickLevelContinueButton();
+        campusPage.clickCloseSendPersonalInformationDialog();
+        campusPage.clickNotNowInviteFriendsDialog();
+        campusPage.clickStartCourse();
+        campusPage.clickHomeButton();
     }
-    
-   
-    
-     
+
+    @Then("^I should be on the login page$")
+    public void i_should_be_on_the_login_page() {
+
+        assertTrue("Missing expected elements from campus login page", loginPage.validatePage());
+    }
+
 }

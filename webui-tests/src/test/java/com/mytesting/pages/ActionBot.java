@@ -13,40 +13,64 @@ public class ActionBot {
 		this.driver = driver;
 	}
 
-	public void waitToBeDisplayed(WebElement element) {
+	public boolean isElementVisible(WebElement element) {
 
-		WebDriverWait wait = new WebDriverWait(driver, defaultExplicitTimeoutInSeconds);
-		wait.until(d -> element.isDisplayed());
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, defaultExplicitTimeoutInSeconds);
+			wait.until(d -> element.isDisplayed());
+			return true;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
 	}
 
-	public void waitToBeEnabled(WebElement element) {
+	public boolean isElementEnabled(WebElement element) {
 
-		WebDriverWait wait = new WebDriverWait(driver, defaultExplicitTimeoutInSeconds);
-		wait.until(d -> element.isEnabled());
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, defaultExplicitTimeoutInSeconds);
+			wait.until(d -> element.isEnabled());
+			return true;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
 	}
 
-	public void waitToBeDisplayedAndClick(WebElement element) {
+	public boolean waitElementDisplayedAndClick(WebElement element) {
 
-		waitToBeDisplayed(element);
+		if (!isElementVisible(element))
+			return false;
+
 		element.click();
+		return true;
 	}
 
-	public void waitToBeEnabledAndClick(WebElement element) {
+	public boolean waitElementEnabledAndClick(WebElement element) {
 
-		waitToBeEnabled(element);
+		if (!isElementEnabled(element))
+			return false;
+
 		element.click();
+		return true;
 	}
 
-	protected void waitToBeDisplayedAndEnterText(WebElement element, String text) {
+	protected boolean waitElementDisplayedAndEnterText(WebElement element, String text) {
 
-		waitToBeDisplayed(element);
+		if (!isElementVisible(element))
+			return false;
+
 		element.sendKeys(text);
+		return true;
 	}
 
-	public void waitToBeEnabledAndEnterText(WebElement element, String text) {
+	public boolean waitElementEnabledAndEnterText(WebElement element, String text) {
 
-		waitToBeEnabled(element);
+		if (!isElementEnabled(element))
+			return false;
+
 		element.sendKeys(text);
+		return true;
 	}
 
 }

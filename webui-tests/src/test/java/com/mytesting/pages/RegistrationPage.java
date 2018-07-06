@@ -23,16 +23,16 @@ public class RegistrationPage extends BasePage {
 	
 	public void clickSignInGoogleButton() {
 		
-		actionBot.waitToBeDisplayedAndClick(signInGoogleButton);
+		actionBot.waitElementDisplayedAndClick(signInGoogleButton);
 	}
 
 	public void checkNoCommercialNotification(){
 
-		actionBot.waitToBeEnabledAndClick(noCommercialNotificationCheckbox);
+		actionBot.waitElementEnabledAndClick(noCommercialNotificationCheckbox);
 	}
 
 	public void clickRegisterButton(){
 
-		actionBot.waitToBeDisplayedAndClick(registerButton);
+		actionBot.waitElementDisplayedAndClick(registerButton);
 	}
 }

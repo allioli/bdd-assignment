@@ -8,9 +8,10 @@ Feature: User registration
 
   Scenario: Sign up with google account
     Given I go to login page
-    When I create a user account with google credentials
-    #Then I am signed in as a registered user
-    #When I sign out
+    When I register with google credentials
+    Then I should enter the campus for the first time
+    When I log out
+    Then I should be on the login page
     #And I sign in with email and password
     #Then I am signed in as a registered user
     

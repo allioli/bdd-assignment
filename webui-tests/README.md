@@ -12,7 +12,7 @@ Default selenium timeouts are adjusted to run on a low-end laptop and might appe
 
 Examples include design patterns such as *Page object*, *Page factory* and *Action Bot*.
 
-Default cukes runner tags are @user_registration
+Default cukes runner tag is `@user_registration`
 
 
 ## Contents

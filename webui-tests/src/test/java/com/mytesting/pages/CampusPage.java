@@ -1,11 +1,13 @@
 package com.mytesting.pages;
 
+import com.mytesting.actions.IActionBot;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
-public class CampusPage extends BasePage {
+public class CampusPage extends BasePage implements IValidatable {
 
   @FindBy(how = How.ID, using = "levelTest-cta")
   private WebElement levelContinueButton;
@@ -73,6 +75,16 @@ public class CampusPage extends BasePage {
   public void clickStartCourse() {
 
     actionBot.waitElementDisplayedAndClick(startCourseButton);
+  }
+
+  public boolean validatePage() {
+
+    if (actionBot.isElementVisible(myAccountMenu) &&
+        actionBot.isElementVisible(homeButton))
+
+      return true;
+
+    return false;
   }
 
 }

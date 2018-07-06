@@ -1,11 +1,13 @@
 package com.mytesting.pages;
 
+import com.mytesting.actions.IActionBot;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
-public class LoginPage extends BasePage {
+public class LoginPage extends BasePage implements IValidatable {
 	
     private final String url = "https://campus.abaenglish.com/en/login";
     
@@ -41,6 +43,12 @@ public class LoginPage extends BasePage {
 		actionBot.waitElementDisplayedAndClick(registerButton);
 	}
 
+	public void clickGoogleLogin() {
+		
+		actionBot.waitElementDisplayedAndClick(googleLoginButton);
+	}
+
+
 	public boolean validatePage(){
 
         if( actionBot.isElementVisible(registerButton) &&
@@ -52,6 +60,5 @@ public class LoginPage extends BasePage {
             return true;
 
         return false;
-
-}
+	}
 }

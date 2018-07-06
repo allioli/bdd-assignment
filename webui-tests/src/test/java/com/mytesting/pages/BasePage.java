@@ -2,20 +2,23 @@ package com.mytesting.pages;
 
 import java.util.Set;
 
+import com.mytesting.actions.BasicActionBot;
+import com.mytesting.actions.IActionBot;
+
 import org.openqa.selenium.WebDriver;
 
 public class BasePage {
 	
   protected WebDriver driver;
-  protected ActionBot actionBot;
+  protected IActionBot actionBot;
   protected String windowHandle;
   
   public BasePage(WebDriver driver) {
     this.driver = driver;
-    this.actionBot = new ActionBot(driver);
+    this.actionBot = new BasicActionBot(driver);
   }
 
-  public void switchToNewChildWindow(){
+   public void switchToNewChildWindow(){
 
     String parentWindowHandle="";  
     String childWindowHandle=""; 

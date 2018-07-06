@@ -54,16 +54,18 @@ public class UserRegistrationStepDefinitions {
         // registrationPage.clickRegisterButton();
     }
 
-    @When("^I sign in with email and password$")
-    public void i_sign_in_with_email_password() {
+    @When("^I sign in with google credentials$")
+    public void i_sign_in_with_google_credentials() {
 
-        /*
-         * loginPage.clickLoginButton(); loginPanel.clickLoginEmailButton();
-         * loginPanel.enterEmail(world.getLoginEmail());
-         * loginPanel.enterPassword(world.getLoginPassword());
-         * loginPanel.clickEmailPasswordSubmitButton();
-         */
+        loginPage.clickGoogleLogin();
+        loginPage.switchToNewChildWindow();
 
+        googleSignInPopUp.enterEmail("joethecatwithdiamonds@gmail.com");
+        googleSignInPopUp.clickEmailSubmitButton();
+        googleSignInPopUp.enterPassword("joe123joe");
+        googleSignInPopUp.clickPasswordSubmitButton();
+
+        loginPage.switchToParentWindow();
     }
 
     @When("^I log out$")
@@ -86,7 +88,18 @@ public class UserRegistrationStepDefinitions {
     @Then("^I should be on the login page$")
     public void i_should_be_on_the_login_page() {
 
-        assertTrue("Missing expected elements from campus login page", loginPage.validatePage());
+        assertTrue("Missing expected elements in campus login page", loginPage.validatePage());
+    }
+
+    @Then("^I should enter the campus$")
+    public void i_should_enter_the_campus() {
+
+        campusPage.clickCloseSendPersonalInformationDialog();
+        campusPage.clickNotNowInviteFriendsDialog();
+        campusPage.clickStartCourse();
+        campusPage.clickHomeButton();
+        
+        assertTrue("Missing expected elements in campus login page", campusPage.validatePage());
     }
 
 }

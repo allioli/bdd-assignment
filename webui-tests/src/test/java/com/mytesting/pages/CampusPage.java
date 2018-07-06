@@ -30,6 +30,9 @@ public class CampusPage extends BasePage implements IValidatable {
   @FindBy(how = How.ID, using = "idUlHome")
   private WebElement homeButton;
 
+  @FindBy(how = How.ID, using = "idUlVideos")
+  private WebElement videoButton;
+
   @FindBy(how = How.CSS, using = ".comenzarcurso")
   private WebElement startCourseButton;
 
@@ -79,8 +82,8 @@ public class CampusPage extends BasePage implements IValidatable {
 
   public boolean validatePage() {
 
-    if (actionBot.isElementVisible(myAccountMenu) &&
-        actionBot.isElementVisible(homeButton))
+    if (actionBot.isElementVisible(myAccountMenu) && actionBot.isElementVisible(homeButton)
+        && actionBot.isElementVisible(videoButton))
 
       return true;
 

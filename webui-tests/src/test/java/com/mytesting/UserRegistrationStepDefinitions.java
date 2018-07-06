@@ -36,36 +36,43 @@ public class UserRegistrationStepDefinitions {
         loginPage.navigate();
     }
 
-    @When("^I register with google credentials$")
-    public void i_register_with_google_credentials() {
+    @When("^I select register new user with Google credentials$")
+    public void i_select_register_new_user_with_google_credentials() {
 
         loginPage.clickRegisterButton();
-
         registrationPage.clickSignInGoogleButton();
-        registrationPage.switchToNewChildWindow();
-
-        googleSignInPopUp.enterEmail("joethecatwithdiamonds@gmail.com");
-        googleSignInPopUp.clickEmailSubmitButton();
-        googleSignInPopUp.enterPassword("joe123joe");
-        googleSignInPopUp.clickPasswordSubmitButton();
-
-        registrationPage.switchToParentWindow();
-        // registrationPage.checkNoCommercialNotification();
-        // registrationPage.clickRegisterButton();
     }
 
-    @When("^I sign in with google credentials$")
-    public void i_sign_in_with_google_credentials() {
+    @When("^I submit registration$")
+    public void i_submit_registration() {
 
-        loginPage.clickGoogleLogin();
-        loginPage.switchToNewChildWindow();
+        registrationPage.checkNoCommercialNotification();
+        registrationPage.clickRegisterButton();
+    }
 
-        googleSignInPopUp.enterEmail("joethecatwithdiamonds@gmail.com");
+    @When("^I skip level test$")
+    public void i_skip_level_test() {
+
+        campusPage.clickLevelContinueButton();
+    }
+
+    @When("^I enter Google credentials \"(.+)\" and \"(.+)\"$")
+    public void i_enter_google_credentials_email_and_password(String email, String password) {
+
+        googleSignInPopUp.switchToNewChildWindow();
+
+        googleSignInPopUp.enterEmail(email);
         googleSignInPopUp.clickEmailSubmitButton();
-        googleSignInPopUp.enterPassword("joe123joe");
+        googleSignInPopUp.enterPassword(password);
         googleSignInPopUp.clickPasswordSubmitButton();
 
-        loginPage.switchToParentWindow();
+        googleSignInPopUp.switchToParentWindow();
+    }
+
+    @When("^I select sign in with Google credentials$")
+    public void i_select_sign_in_with_google_credentials() {
+
+        loginPage.clickGoogleLogin();
     }
 
     @When("^I log out$")
@@ -73,16 +80,6 @@ public class UserRegistrationStepDefinitions {
 
         campusPage.clickMyAccountMenu();
         campusPage.clickLogoutButton();
-    }
-
-    @Then("^I should enter the campus for the first time$")
-    public void i_should_enter_campus_for_the_first_time() {
-
-        // campusPage.clickLevelContinueButton();
-        campusPage.clickCloseSendPersonalInformationDialog();
-        campusPage.clickNotNowInviteFriendsDialog();
-        campusPage.clickStartCourse();
-        campusPage.clickHomeButton();
     }
 
     @Then("^I should be on the login page$")
@@ -97,8 +94,10 @@ public class UserRegistrationStepDefinitions {
         campusPage.clickCloseSendPersonalInformationDialog();
         campusPage.clickNotNowInviteFriendsDialog();
         campusPage.clickStartCourse();
+
+        // Click Home in order to skip the Adobe Flash panel
         campusPage.clickHomeButton();
-        
+
         assertTrue("Missing expected elements in campus login page", campusPage.validatePage());
     }
 

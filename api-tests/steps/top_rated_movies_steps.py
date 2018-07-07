@@ -33,6 +33,8 @@ def compose_mobiedb_request_url(context):
     if('page' in context.request_params):
         url += ('&page=' + context.request_params['page'])
 
+    print(url)
+    
     return url
 
 
@@ -79,16 +81,16 @@ def step_then_response_contains_movie_with_field_equal_number(context, index, fi
     assert_that(context.response_json['results'][index][field], equal_to(value))
 
 
-@then(u'response contains movie with "{field}" equal to "{value}"')
-def step_then_response_contains_movie_with_field_equal(context, field, value):
+@then(u'response contains movie in position "{index:d}" with "{field}" equal to "{value}"')
+def step_then_response_contains_movie_with_field_equal(context, index, field, value):
 
-    assert_that(context.response_json['results'][0][field], equal_to(value))
+    assert_that(context.response_json['results'][index][field], equal_to(value))
 
 
-@then(u'response contains movie with "{field}" starting with "{value}"')
-def step_then_response_contains_movie_with_field_starting(context, field, value):
+@then(u'response contains movie in position "{index:d}" with "{field}" starting with "{value}"')
+def step_then_response_contains_movie_with_field_starting(context, index, field, value):
 
-    assert_that(context.response_json['results'][0][field], starts_with(value))
+    assert_that(context.response_json['results'][index][field], starts_with(value))
 
 @then(u'movies are sorted by "{field}" in descending order')
 def step_then_response_contains_movie_with_field_starting(context, field):

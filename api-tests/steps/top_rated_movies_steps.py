@@ -1,19 +1,11 @@
 
 import requests
 from behave import given, when, then
-from hamcrest import equal_to, assert_that, starts_with, less_than_or_equal_to
+from hamcrest import equal_to, assert_that, starts_with, less_than_or_equal_to, contains_string
 
 
 api_key = '419af08f20d7174c0a764c55e22c403a'
 base_movie_db_api_base_url = 'https://api.themoviedb.org/3/movie/'
-
-def find_movie(context, id):
-
-    for movie in context.response_json['results'].items:
-        if movie['id'] == id:
-            return movie
-
-    raise Exception('Movie with id: ' + id + ' not found in JSON response')
 
 def compose_mobiedb_request_url(context):
 
@@ -33,8 +25,8 @@ def compose_mobiedb_request_url(context):
     if('page' in context.request_params):
         url += ('&page=' + context.request_params['page'])
 
-    print(url)
-    
+    #print(url)
+
     return url
 
 
@@ -93,9 +85,10 @@ def step_then_response_contains_movie_with_field_starting(context, index, field,
     assert_that(context.response_json['results'][index][field], starts_with(value))
 
 @then(u'movies are sorted by "{field}" in descending order')
-def step_then_response_contains_movie_with_field_starting(context, field):
+def step_then_movies_are_sorted_by_field_desc(context, field):
 
     num_results = len(context.response_json['results'])
+
     if (num_results > 1):
         for index in range(1, num_results):
             # Check that movie value for field is lower or equal than on the previous one
@@ -103,5 +96,18 @@ def step_then_response_contains_movie_with_field_starting(context, field):
             previous_movie_value =  context.response_json['results'][index-1][field]
             assert_that(movie_value, less_than_or_equal_to(previous_movie_value), 'Movies not correctly sorted')
 
-     
+@then(u'response contains "{result_number:d}" results')
+def step_then_response_contains_number_results(context, result_number):
+    
+    assert_that(len(context.response_json['results']), equal_to(result_number))
 
+@then(u'response contains error message "{error_message}"')
+def step_then_response_contains_error_message(context, error_message):
+    
+   # raise Exception('Movie with id: ' + context.response.text + ' MATCHES ' + error_message)
+
+    if len(context.response_json['errors']) > 0:
+        assert_that(context.response.text, contains_string(error_message))
+     
+    
+  

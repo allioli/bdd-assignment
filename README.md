@@ -7,3 +7,4 @@ This repository contains two Test automation example projects as deliverables fo
 |**Title** | **Project**  |
 |---       | ---         |
 | WEB UI BDD | [java cucumber selenium project](webui-tests)      |
+| API BDD | [python behave project](api-tests)      |

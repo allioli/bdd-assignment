@@ -29,8 +29,6 @@ def compose_moviedb_top_rated_request_url(context):
     if('page' in context.request_params):
         url += ('&page=' + context.request_params['page'])
 
-    #print(url)
-
     return url
 
 
@@ -50,8 +48,6 @@ def compose_moviedb_rate_movie_request_url(context):
         url += ('&guest_session_id=' + context.request_params['custom_guest_session_id'])
     else:
         url += '&guest_session_id=' + guest_session_id
- 
-    print(url)
 
     return url
 

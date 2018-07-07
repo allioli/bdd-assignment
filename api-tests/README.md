@@ -12,7 +12,7 @@ It will run test scenarios against themoviedb API.
 
 | **Folder** | **Contents** |
 | ---        | ---          |
-|   features |  Feature files with themoviedb API scenarios      |
+|   [features](features) |  Feature files with themoviedb API scenarios      |
 |   steps    |     Step definitions in python      |
 
 ## Dependencies

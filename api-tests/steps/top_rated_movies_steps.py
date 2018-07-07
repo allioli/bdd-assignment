@@ -7,6 +7,13 @@ from hamcrest import equal_to, assert_that, starts_with, less_than_or_equal_to
 api_key = '419af08f20d7174c0a764c55e22c403a'
 base_movie_db_api_base_url = 'https://api.themoviedb.org/3/movie/'
 
+def find_movie(context, id):
+
+    for movie in context.response_json['results'].items:
+        if movie['id'] == id:
+            return movie
+
+    raise Exception('Movie with id: ' + id + ' not found in JSON response')
 
 def compose_mobiedb_request_url(context):
 
@@ -55,7 +62,7 @@ def step_then_response_code(context, response_code):
     assert_that(context.response.status_code, equal_to(response_code))
 
 
-@then(u'response contains "{field}" equal to number "{value:d}"')
+@then(u'response contains "{field}" equal to number "{value:g}"')
 def step_then_response_contains_field_number(context, field, value):
 
     assert_that(context.response_json[field], equal_to(value))
@@ -66,10 +73,10 @@ def step_then_response_contains_field(context, field, value):
     assert_that(context.response_json[field], equal_to(value))
 
 
-@then(u'response contains movie with "{field}" equal to number "{value:d}"')
-def step_then_response_contains_movie_with_field_equal_number(context, field, value):
+@then(u'response contains movie in position "{index:d}" with "{field}" equal to number "{value:g}"')
+def step_then_response_contains_movie_with_field_equal_number(context, index, field, value):
 
-    assert_that(context.response_json['results'][0][field], equal_to(value))
+    assert_that(context.response_json['results'][index][field], equal_to(value))
 
 
 @then(u'response contains movie with "{field}" equal to "{value}"')

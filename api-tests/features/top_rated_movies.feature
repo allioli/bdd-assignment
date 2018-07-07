@@ -6,7 +6,8 @@ Feature: MovieDB API Top Rated Movies
     When I perform request to movie-db API
     Then response code is "200"
     And response contains "page" equal to number "1"
-    And response contains movie with "id" equal to number "19404"
+    And response contains movie in position "0" with "id" equal to number "19404"
+    And response contains movie in position "0" with "vote_average" equal to number "9.3"
     And movies are sorted by "vote_average" in descending order
 
   Scenario: Invalid API key

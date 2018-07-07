@@ -2,8 +2,7 @@
 Feature: MovieDB API Top Rated Movies
 
   Scenario: Default query
-    Given I create moviedb API request for "top_rated"
-    When I perform request to movie-db API
+    When I perform GET request to movie-db API
     Then response code is "200"
     And response contains "page" equal to number "1"
     And response contains movie in position "0" with "id" equal to number "19404"
@@ -11,25 +10,23 @@ Feature: MovieDB API Top Rated Movies
     And movies are sorted by "vote_average" in descending order
 
   Scenario: Invalid API key
-    Given I create moviedb API request for "top_rated"
-    And I add parameter "custom_api_key" with value "555555"
-    When I perform request to movie-db API
+    Given I add parameter "custom_api_key" with value "555555"
+    When I perform GET request to movie-db API
     Then response code is "401"
     And response contains "status_code" equal to number "7"
     And response contains "status_message" equal to "Invalid API key: You must be granted a valid key."
 
-  Scenario: Invalid API resource
-    Given I create moviedb API request for "top_scraped"
-    When I perform request to movie-db API
+  Scenario: Invalid API resource 
+    Given I add parameter "custom_api_resource" with value "top_scraped"
+    When I perform GET request to movie-db API
     Then response code is "404"
     And response contains "status_code" equal to number "34"
     And response contains "status_message" equal to "The resource you requested could not be found."
 
   Scenario Outline: Test Region vs Language
-    Given I create moviedb API request for "top_rated"
-    And I add parameter "language" with value "<language>"
+    Given I add parameter "language" with value "<language>"
     And I add parameter "region" with value "<region>"
-    When I perform request to movie-db API
+    When I perform GET request to movie-db API
     Then response code is "200"
     And response contains "page" equal to number "1"
     And response contains movie in position "2" with "id" equal to number "238"
@@ -47,9 +44,8 @@ Feature: MovieDB API Top Rated Movies
      | es-SP     | US     |  El Padrino    | 1972-03-15   | The Godfather   |  en               | 
 
    Scenario Outline: Paging results
-    Given I create moviedb API request for "top_rated"
-    And I add parameter "page" with value "<page>"
-    When I perform request to movie-db API
+    Given I add parameter "page" with value "<page>"
+    When I perform GET request to movie-db API
     Then response code is "<response_code>"
     And response contains "page" equal to number "<expected_page>"
     And response contains "total_results" equal to number "7574"
@@ -66,9 +62,8 @@ Feature: MovieDB API Top Rated Movies
      | 1000  | 200           |  1000          |        0         |                         
 
 Scenario Outline: Paging errors
-    Given I create moviedb API request for "top_rated"
-    And I add parameter "page" with value "<page>"
-    When I perform request to movie-db API
+    Given I add parameter "page" with value "<page>"
+    When I perform GET request to movie-db API
     Then response code is "<response_code>"
     And response contains error message "<error_message>"
 

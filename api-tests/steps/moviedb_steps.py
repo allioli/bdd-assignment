@@ -5,11 +5,15 @@ from hamcrest import equal_to, assert_that, starts_with, less_than_or_equal_to, 
 
 
 api_key = '419af08f20d7174c0a764c55e22c403a'
+guest_session_id = '1013ad7dd606a2f435e0e7b74be62689'
 base_movie_db_api_base_url = 'https://api.themoviedb.org/3/movie/'
 
-def compose_mobiedb_request_url(context):
+def compose_moviedb_top_rated_request_url(context):
 
-    url = base_movie_db_api_base_url + context.request_params['api_resource']
+    if('custom_api_resource' in context.request_params):
+        url = base_movie_db_api_base_url + context.request_params['custom_api_resource']
+    else:
+        url = base_movie_db_api_base_url + "top_rated"
 
     if('custom_api_key' in context.request_params):
         url += ('?api_key=' + context.request_params['custom_api_key'])
@@ -30,26 +34,60 @@ def compose_mobiedb_request_url(context):
     return url
 
 
-@given(u'I create moviedb API request for "{api_resource}"')
-def step_given_I_create_moviedb_api_request(context, api_resource):
+def compose_moviedb_rate_movie_request_url(context):
 
-    context.request_params = {'api_resource': api_resource}
+    if('movie_id' not in context.request_params):
+        raise Exception('Missing movie_id parameter to build request URL') 
+
+    url = base_movie_db_api_base_url + context.request_params['movie_id'] + '/rating'
+
+    if('custom_api_key' in context.request_params):
+        url += ('?api_key=' + context.request_params['custom_api_key'])
+    else:
+        url += '?api_key=' + api_key
+    
+    if('custom_guest_session_id' in context.request_params):
+        url += ('&guest_session_id=' + context.request_params['custom_guest_session_id'])
+    else:
+        url += '&guest_session_id=' + guest_session_id
+ 
+    print(url)
+
+    return url
+
+
+@given(u'I create moviedb API request to rate movie with id "{movie_id}"')
+def step_given_I_create_moviedb_api_request(context, movie_id):
+
+    context.request_params = {'movie_id': movie_id}
 
 
 @given(u'I add parameter "{parameter_name}" with value "{parameter_value}"')
 def step_given_I_add_parameter_with_value(context, parameter_name, parameter_value):
 
+    if not hasattr(context, 'request_params'):
+        context.request_params = {}
+
     context.request_params[parameter_name] = parameter_value
 
 
-@when(u'I perform request to movie-db API')
-def step_when_I_perform_request_to_movie_db_api(context):
+@when(u'I perform GET request to movie-db API')
+def step_when_I_perform_get_request_to_movie_db_api(context):
 
-    request_url = compose_mobiedb_request_url(context)
+    if not hasattr(context, 'request_params'):
+        context.request_params = {}
+
+    request_url = compose_moviedb_top_rated_request_url(context)
     context.response = requests.get(request_url)
     context.response_json = context.response.json()
 
+@when(u'I perform POST request to movie-db API')
+def step_when_I_perform_post_request_to_movie_db_api(context):
 
+    request_url = compose_moviedb_rate_movie_request_url(context)
+    context.response = requests.post(request_url, data = {'value': context.request_params['rating']})
+    context.response_json = context.response.json()
+    
 @then(u'response code is "{response_code:d}"')
 def step_then_response_code(context, response_code):
 
@@ -104,8 +142,6 @@ def step_then_response_contains_number_results(context, result_number):
 @then(u'response contains error message "{error_message}"')
 def step_then_response_contains_error_message(context, error_message):
     
-   # raise Exception('Movie with id: ' + context.response.text + ' MATCHES ' + error_message)
-
     if len(context.response_json['errors']) > 0:
         assert_that(context.response.text, contains_string(error_message))
      

@@ -1,5 +1,5 @@
 # Overview
-This repository contains two Test automation example projects as deliverables for the ABAEnglish QA technical assignment.
+This repository contains two Test automation example projects.
 
 
 ## Contents
